@@ -1,0 +1,51 @@
+[
+    {
+        "fecha": "2025-06-08T22:46:43.493494",
+        "objetivo": "perder_grasa",
+        "actividad": "activo",
+        "dieta": "omnivoro",
+        "recomendacion": "Déficit calórico ligero, proteínas altas, carbohidratos complejos para energía, incluir entrenamiento de fuerza y cardio."
+    },
+    {
+        "fecha": "2025-06-08T22:47:05.715625",
+        "objetivo": "subir_masa",
+        "actividad": "moderado",
+        "dieta": "vegano",
+        "recomendacion": "❌ No se encontró una recomendación para esa combinación"
+    },
+    {
+        "fecha": "2025-06-08T22:47:11.596149",
+        "objetivo": "subir_masa",
+        "actividad": "moderado",
+        "dieta": "vegetariano",
+        "recomendacion": "❌ No se encontró una recomendación para esa combinación"
+    },
+    {
+        "fecha": "2025-06-08T22:47:14.694368",
+        "objetivo": "subir_masa",
+        "actividad": "moderado",
+        "dieta": "omnivoro",
+        "recomendacion": "Superávit calórico moderado, alta proteína, carbohidratos complejos, entrenamiento de fuerza 3-5 veces por semana."
+    },
+    {
+        "fecha": "2025-06-08T22:47:42.251293",
+        "objetivo": "perder_grasa",
+        "actividad": "sedentario",
+        "dieta": "vegetariano",
+        "recomendacion": "Alta proteína vegetal (legumbres, tofu), reducir carbohidratos simples, muchas verduras y frutos secos para grasas saludables."
+    },
+    {
+        "fecha": "2025-06-08T23:40:18.784767",
+        "objetivo": "perder_grasa",
+        "actividad": "sedentario",
+        "dieta": "omnivoro",
+        "recomendacion": "Déficit calórico moderado, alta ingesta de proteínas magras (pollo, pescado), muchas verduras fibrosas, reducir azúcares simples y grasas saturadas."
+    },
+    {
+        "fecha": "2025-06-08T23:46:51.383735",
+        "objetivo": "mantener_peso",
+        "actividad": "sedentario",
+        "dieta": "vegetariano",
+        "recomendacion": "Consumo calórico adecuado con proteínas vegetales, grasas saludables y control de carbohidratos refinados."
+    }
+]
