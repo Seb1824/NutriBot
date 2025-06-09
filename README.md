@@ -11,3 +11,7 @@ Descripción breve del proyecto.
 2. Instala PySwip:  
    ```bash
    pip install pyswip
+
+3. Instala pillow:  
+   ```bash
+   pip install pillow
