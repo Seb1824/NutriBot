@@ -84,7 +84,7 @@ class NutriBotGUI:
 
         ttk.Label(frame, text="Objetivo nutricional:").pack(anchor="w", pady=(5, 0))
         self.objetivo_var = tk.StringVar()
-        objetivos = ['perder_grasa', 'subir_masa', 'mantener_peso', 'mejorar_salud_digestiva']
+        objetivos = ['[Seleccionar]','perder_grasa', 'subir_masa', 'mantener_peso', 'mejorar_salud_digestiva']
         self.objetivo_combo = ttk.Combobox(
             frame, textvariable=self.objetivo_var, values=objetivos, state="readonly", style="CustomCombobox.TCombobox"
         )
@@ -93,7 +93,7 @@ class NutriBotGUI:
 
         ttk.Label(frame, text="Nivel de actividad física:").pack(anchor="w", pady=(10, 0))
         self.actividad_var = tk.StringVar()
-        actividades = ['sedentario', 'moderado', 'activo', 'intermitente']
+        actividades = ['[Seleccionar]','sedentario', 'moderado', 'activo', 'intermitente']
         self.actividad_combo = ttk.Combobox(
             frame, textvariable=self.actividad_var, values=actividades, state="readonly", style="CustomCombobox.TCombobox"
         )
@@ -102,7 +102,7 @@ class NutriBotGUI:
 
         ttk.Label(frame, text="Tipo de dieta preferido:").pack(anchor="w", pady=(10, 0))
         self.dieta_var = tk.StringVar()
-        dietas = ['omnivoro', 'vegetariano', 'vegano', 'ayuno_variable']
+        dietas = ['[Seleccionar]','omnivoro', 'vegetariano', 'vegano', 'ayuno_variable']
         self.dieta_combo = ttk.Combobox(
             frame, textvariable=self.dieta_var, values=dietas, state="readonly", style="CustomCombobox.TCombobox"
         )
@@ -131,7 +131,7 @@ class NutriBotGUI:
         actividad = self.actividad_var.get()
         dieta = self.dieta_var.get()
 
-        if not (objetivo and actividad and dieta):
+        if (objetivo == '[Seleccionar]' or actividad == '[Seleccionar]' or dieta == '[Seleccionar]'):
             messagebox.showwarning("Faltan datos", "Por favor, selecciona todas las opciones.")
             return
 
