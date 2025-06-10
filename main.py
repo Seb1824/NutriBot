@@ -123,8 +123,13 @@ class NutriBotGUI:
         self.btn_limpiar.pack(pady=(0, 10))
 
     def init_historial_tab(self):
+        # Botón para mostrar historial
         self.btn_historial = ttk.Button(self.tab_historial, text="📜 Ver Historial", command=self.mostrar_historial)
         self.btn_historial.pack(pady=(20, 10))
+        # Área de texto para mostrar historial (persistente en la pestaña)
+        self.historial_text_area = tk.Text(self.tab_historial, wrap="word", height=20, width=70)
+        self.historial_text_area.pack(padx=10, pady=10, fill="both", expand=True)
+        self.historial_text_area.config(state=tk.DISABLED)
 
     def init_estadisticas_tab(self):
         self.btn_estadisticas = ttk.Button(self.tab_estadisticas, text="📊 Ver Estadísticas", command=self.mostrar_estadisticas)
@@ -158,6 +163,10 @@ class NutriBotGUI:
 
         if not historial_data:
             messagebox.showinfo("Historial", "No hay historial aún.")
+            # Limpia el área de texto si no hay historial
+            self.historial_text_area.config(state=tk.NORMAL)
+            self.historial_text_area.delete(1.0, tk.END)
+            self.historial_text_area.config(state=tk.DISABLED)
             return
 
         historial_text = "\n\n".join([
@@ -165,12 +174,10 @@ class NutriBotGUI:
             for item in historial_data[-10:]
         ])
 
-        top = tk.Toplevel(self.root)
-        top.title("Historial de Recomendaciones")
-        text_area = tk.Text(top, wrap="word", height=20, width=70)
-        text_area.pack(padx=10, pady=10)
-        text_area.insert(tk.END, historial_text)
-        text_area.config(state=tk.DISABLED)
+        self.historial_text_area.config(state=tk.NORMAL)
+        self.historial_text_area.delete(1.0, tk.END)
+        self.historial_text_area.insert(tk.END, historial_text)
+        self.historial_text_area.config(state=tk.DISABLED)
 
     def mostrar_estadisticas(self):
         historial_data = historial.cargar_historial()
