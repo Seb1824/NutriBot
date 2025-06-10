@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriBot – Asistente Nutricional</title>
+  <!-- ✅ CORRECTO uso de url_for para cargar estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- ✅ También corrige la ruta de imagen -->
+      <img src="{{ url_for('static', filename='nutribot_logo.png') }}" alt="NutriBot Logo" class="logo">
+      <h1>NutriBot</h1>
+      <p>Tu Asistente Nutricional Inteligente</p>
+    </header>
+
+    <section class="form-section">
+      <label for="objetivo">Objetivo nutricional:</label>
+      <select id="objetivo">
+        <option value="perder_grasa">Perder grasa</option>
+        <option value="subir_masa">Subir masa muscular</option>
+        <option value="mantener_peso">Mantener peso</option>
+      </select>
+
+      <label for="actividad">Nivel de actividad física:</label>
+      <select id="actividad">
+        <option value="sedentario">Sedentario</option>
+        <option value="moderado">Moderado</option>
+        <option value="activo">Activo</option>
+      </select>
+
+      <label for="dieta">Tipo de dieta preferido:</label>
+      <select id="dieta">
+        <option value="omnivoro">Omnívoro</option>
+        <option value="vegetariano">Vegetariano</option>
+        <option value="vegano">Vegano</option>
+      </select>
+
+      <button id="btn-recomendar">Obtener recomendación</button>
+      <button id="btn-limpiar" class="secondary">Limpiar</button>
+    </section>
+
+    <section class="resultado">
+      <h2>Resultado</h2>
+      <div id="resultado-texto">Selecciona tus opciones y presiona "Obtener recomendación".</div>
+    </section>
+  </div>
+
+  <!-- ✅ CORRECTO uso de url_for para cargar JS -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

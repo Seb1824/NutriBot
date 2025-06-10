@@ -47,5 +47,26 @@
         "actividad": "sedentario",
         "dieta": "vegetariano",
         "recomendacion": "Consumo calórico adecuado con proteínas vegetales, grasas saludables y control de carbohidratos refinados."
+    },
+    {
+        "fecha": "2025-06-10T09:48:40.970397",
+        "objetivo": "perder_grasa",
+        "actividad": "sedentario",
+        "dieta": "omnivoro",
+        "recomendacion": "Deficit calorico moderado, alta ingesta de proteinas magras (pollo, pescado), muchas verduras fibrosas, reducir azucares simples y grasas saturadas. Se recomienda monitorear progreso semanal, llevar un registro de macros y ajustar calorias segun resultados."
+    },
+    {
+        "fecha": "2025-06-10T09:49:41.268308",
+        "objetivo": "perder_grasa",
+        "actividad": "sedentario",
+        "dieta": "omnivoro",
+        "recomendacion": "Deficit calorico moderado, alta ingesta de proteinas magras (pollo, pescado), muchas verduras fibrosas, reducir azucares simples y grasas saturadas. Se recomienda monitorear progreso semanal, llevar un registro de macros y ajustar calorias segun resultados."
+    },
+    {
+        "fecha": "2025-06-10T09:51:07.043993",
+        "objetivo": "perder_grasa",
+        "actividad": "activo",
+        "dieta": "omnivoro",
+        "recomendacion": "Deficit calorico ligero, proteinas altas, carbohidratos complejos para energia, incluir entrenamiento de fuerza y cardio. Se sugiere variar rutinas, incluir dias de recuperacion activa y registrar progresion de rendimiento."
     }
 ]
