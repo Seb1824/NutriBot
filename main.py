@@ -16,9 +16,8 @@ class NutriBotGUI:
         self.root = root
         self.root.title("NutriBot – Asistente Nutricional Inteligente")
         self.root.geometry("600x850")
-        self.root.configure(bg="#e6f2ff")  # Fondo general suave
+        self.root.configure(bg="#e6f2ff")
 
-        # Estilo general moderno
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("TLabel", background="#e6f2ff", font=("Segoe UI", 15), foreground="#003366")
@@ -35,7 +34,7 @@ class NutriBotGUI:
         # Notebook (pestañas)
         notebook = ttk.Notebook(self.root)
         notebook.pack(fill="both", expand=True, padx=10, pady=10)
-        notebook.configure(style="Custom.TNotebook")  # Aplica el estilo personalizado
+        notebook.configure(style="Custom.TNotebook")
 
         # Estilo personalizado para el Notebook
         style.configure("Custom.TNotebook", background="#e6f2ff", borderwidth=0)
@@ -44,7 +43,7 @@ class NutriBotGUI:
                   background=[("selected", "#cce6ff"), ("active", "#e6f2ff")],
                   foreground=[("selected", "#003366"), ("active", "#003366")])
         style.layout("Custom.TNotebook", [
-            ('Notebook.client', {'sticky': 'nswe'})  # Elimina padding/borde extra
+            ('Notebook.client', {'sticky': 'nswe'})
         ])
 
         # Asegura que los frames de las pestañas tengan el mismo fondo
@@ -71,11 +70,11 @@ class NutriBotGUI:
         logo_path = "assets/nutribot_logo.png"
         logo_img = Image.open(logo_path).resize((150, 90))
         self.logo = ImageTk.PhotoImage(logo_img)
-        logo_label = tk.Label(self.tab_recomendar, image=self.logo, bg="#e6f2ff")  # El bg debe coincidir con el fondo
+        logo_label = tk.Label(self.tab_recomendar, image=self.logo, bg="#e6f2ff")
         logo_label.pack(pady=(10, 5))
 
         frame = ttk.LabelFrame(self.tab_recomendar, text="💡 Tu Información", padding=10)
-        frame.configure(style="Custom.TLabelframe")  # Aplica el estilo personalizado
+        frame.configure(style="Custom.TLabelframe")
         frame.pack(padx=10, pady=10, fill="both", expand=False)
 
         # Aplica el color de fondo al estilo del LabelFrame
