@@ -45,22 +45,22 @@ class NutriBotGUI:
 
         ttk.Label(self.tab_recomendar, text="Selecciona tu objetivo:").pack(pady=(5, 0))
         self.objetivo_var = tk.StringVar()
-        objetivos = ['perder_grasa', 'subir_masa', 'mantener_peso', 'mejorar_salud_digestiva']
-        self.objetivo_combo = ttk.Combobox(self.tab_recomendar, textvariable=self.objetivo_var, values=objetivos, state="readonly")
+        objetivos = ['perder_grasa', 'subir_masa', 'mantener_peso']
+        self.objetivo_combo = ttk.Combobox(root, textvariable=self.objetivo_var, values=objetivos, state="readonly")
         self.objetivo_combo.pack(pady=5)
         self.objetivo_combo.current(0)
 
         ttk.Label(self.tab_recomendar, text="Selecciona tu nivel de actividad:").pack(pady=(10, 0))
         self.actividad_var = tk.StringVar()
-        actividades = ['sedentario', 'moderado', 'activo', 'intermitente']
-        self.actividad_combo = ttk.Combobox(self.tab_recomendar, textvariable=self.actividad_var, values=actividades, state="readonly")
+        actividades = ['sedentario', 'moderado', 'activo']
+        self.actividad_combo = ttk.Combobox(root, textvariable=self.actividad_var, values=actividades, state="readonly")
         self.actividad_combo.pack(pady=5)
         self.actividad_combo.current(0)
 
         ttk.Label(self.tab_recomendar, text="Selecciona tu tipo de dieta:").pack(pady=(10, 0))
         self.dieta_var = tk.StringVar()
-        dietas = ['omnivoro', 'vegetariano', 'vegano', 'ayuno_variable']
-        self.dieta_combo = ttk.Combobox(self.tab_recomendar, textvariable=self.dieta_var, values=dietas, state="readonly")
+        dietas = ['omnivoro', 'vegetariano', 'vegano']
+        self.dieta_combo = ttk.Combobox(root, textvariable=self.dieta_var, values=dietas, state="readonly")
         self.dieta_combo.pack(pady=5)
         self.dieta_combo.current(0)
 
