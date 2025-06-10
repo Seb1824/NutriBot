@@ -1,6 +1,7 @@
 from src.nutribot import NutriBot
 import tkinter as tk
 from tkinter import ttk, messagebox
+import tkinter.font as tkFont
 import json
 from datetime import datetime
 import os
@@ -20,20 +21,37 @@ class NutriBotGUI:
         # Estilo general moderno
         style = ttk.Style()
         style.theme_use("clam")
-        style.configure("TLabel", background="#e6f2ff", font=("Segoe UI", 11), foreground="#003366")
-        style.configure("TButton", font=("Segoe UI", 10, "bold"), padding=8, relief="flat", background="#004080", foreground="white")
+        style.configure("TLabel", background="#e6f2ff", font=("Segoe UI", 15), foreground="#003366")
+        style.configure("TButton", font=("Segoe UI", 15, "bold"), padding=8, relief="flat", background="#004080", foreground="white")
+        style.configure("TCombobox", font=("Segoe UI", 20, "bold"))
         style.map("TButton",
                   background=[("active", "#0059b3")],
                   foreground=[("active", "white")])
-        style.configure("TCombobox", font=("Segoe UI", 10))
+
+        big_font = tkFont.Font(family="Segoe UI", size=15)
+        style.configure("CustomCombobox.TCombobox", font=big_font)
+        root.option_add("*TCombobox*Listbox*Font", big_font)
 
         # Notebook (pestañas)
         notebook = ttk.Notebook(self.root)
         notebook.pack(fill="both", expand=True, padx=10, pady=10)
+        notebook.configure(style="Custom.TNotebook")  # Aplica el estilo personalizado
 
-        self.tab_recomendar = ttk.Frame(notebook)
-        self.tab_historial = ttk.Frame(notebook)
-        self.tab_estadisticas = ttk.Frame(notebook)
+        # Estilo personalizado para el Notebook
+        style.configure("Custom.TNotebook", background="#e6f2ff", borderwidth=0)
+        style.configure("Custom.TNotebook.Tab", background="#e6f2ff", foreground="#003366", font=("Segoe UI", 15))
+        style.map("Custom.TNotebook.Tab",
+                  background=[("selected", "#cce6ff"), ("active", "#e6f2ff")],
+                  foreground=[("selected", "#003366"), ("active", "#003366")])
+        style.layout("Custom.TNotebook", [
+            ('Notebook.client', {'sticky': 'nswe'})  # Elimina padding/borde extra
+        ])
+
+        # Asegura que los frames de las pestañas tengan el mismo fondo
+        self.tab_recomendar = ttk.Frame(notebook, style="Custom.TFrame")
+        self.tab_historial = ttk.Frame(notebook, style="Custom.TFrame")
+        self.tab_estadisticas = ttk.Frame(notebook, style="Custom.TFrame")
+        style.configure("Custom.TFrame", background="#e6f2ff")
 
         notebook.add(self.tab_recomendar, text="🏋️ Recomendación")
         notebook.add(self.tab_historial, text="📜 Historial")
@@ -53,37 +71,49 @@ class NutriBotGUI:
         logo_path = "assets/nutribot_logo.png"
         logo_img = Image.open(logo_path).resize((150, 90))
         self.logo = ImageTk.PhotoImage(logo_img)
-        logo_label = tk.Label(self.tab_recomendar, image=self.logo, bg="#e6f2ff")
+        logo_label = tk.Label(self.tab_recomendar, image=self.logo, bg="#e6f2ff")  # El bg debe coincidir con el fondo
         logo_label.pack(pady=(10, 5))
 
         frame = ttk.LabelFrame(self.tab_recomendar, text="💡 Tu Información", padding=10)
+        frame.configure(style="Custom.TLabelframe")  # Aplica el estilo personalizado
         frame.pack(padx=10, pady=10, fill="both", expand=False)
+
+        # Aplica el color de fondo al estilo del LabelFrame
+        style = ttk.Style()
+        style.configure("Custom.TLabelframe", background="#e6f2ff")
+        style.configure("Custom.TLabelframe.Label", background="#e6f2ff")
 
         ttk.Label(frame, text="Objetivo nutricional:").pack(anchor="w", pady=(5, 0))
         self.objetivo_var = tk.StringVar()
-        objetivos = ['perder_grasa', 'subir_masa', 'mantener_peso']
-        self.objetivo_combo = ttk.Combobox(frame, textvariable=self.objetivo_var, values=objetivos, state="readonly")
+        objetivos = ['perder_grasa', 'subir_masa', 'mantener_peso', 'mejorar_salud_digestiva']
+        self.objetivo_combo = ttk.Combobox(
+            frame, textvariable=self.objetivo_var, values=objetivos, state="readonly", style="CustomCombobox.TCombobox"
+        )
         self.objetivo_combo.pack(fill="x", pady=5)
         self.objetivo_combo.current(0)
 
         ttk.Label(frame, text="Nivel de actividad física:").pack(anchor="w", pady=(10, 0))
         self.actividad_var = tk.StringVar()
-        actividades = ['sedentario', 'moderado', 'activo']
-        self.actividad_combo = ttk.Combobox(frame, textvariable=self.actividad_var, values=actividades, state="readonly")
+        actividades = ['sedentario', 'moderado', 'activo', 'intermitente']
+        self.actividad_combo = ttk.Combobox(
+            frame, textvariable=self.actividad_var, values=actividades, state="readonly", style="CustomCombobox.TCombobox"
+        )
         self.actividad_combo.pack(fill="x", pady=5)
         self.actividad_combo.current(0)
 
         ttk.Label(frame, text="Tipo de dieta preferido:").pack(anchor="w", pady=(10, 0))
         self.dieta_var = tk.StringVar()
-        dietas = ['omnivoro', 'vegetariano', 'vegano']
-        self.dieta_combo = ttk.Combobox(frame, textvariable=self.dieta_var, values=dietas, state="readonly")
+        dietas = ['omnivoro', 'vegetariano', 'vegano', 'ayuno_variable']
+        self.dieta_combo = ttk.Combobox(
+            frame, textvariable=self.dieta_var, values=dietas, state="readonly", style="CustomCombobox.TCombobox"
+        )
         self.dieta_combo.pack(fill="x", pady=5)
         self.dieta_combo.current(0)
 
         self.btn_recomendar = ttk.Button(self.tab_recomendar, text="✅ Obtener recomendación", command=self.obtener_recomendacion)
         self.btn_recomendar.pack(pady=(10, 5))
 
-        self.resultado_text = tk.Text(self.tab_recomendar, height=5, wrap="word", font=("Segoe UI", 10), bg="#ffffff", relief="solid", bd=1)
+        self.resultado_text = tk.Text(self.tab_recomendar, height=15, wrap="word", font=("Segoe UI", 15), bg="#ffffff", relief="solid", bd=1)
         self.resultado_text.pack(padx=15, pady=(5, 5), fill="both", expand=False)
 
         self.btn_limpiar = ttk.Button(self.tab_recomendar, text="🔄 Limpiar campos", command=self.limpiar_campos)
