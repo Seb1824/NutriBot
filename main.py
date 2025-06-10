@@ -7,6 +7,10 @@ from datetime import datetime
 import os
 import matplotlib.pyplot as plt
 from PIL import Image, ImageTk
+from src import historial, estadisticas
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 class NutriBotGUI:
     def __init__(self, root):
@@ -125,6 +129,7 @@ class NutriBotGUI:
     def init_estadisticas_tab(self):
         self.btn_estadisticas = ttk.Button(self.tab_estadisticas, text="📊 Ver Estadísticas", command=self.mostrar_estadisticas)
         self.btn_estadisticas.pack(pady=(20, 10))
+        self.estadisticas_canvas = None  # Para limpiar la gráfica anterior
 
     def obtener_recomendacion(self):
         objetivo = self.objetivo_var.get()
@@ -146,35 +151,18 @@ class NutriBotGUI:
             self.resultado_text.insert(tk.END, "❌ No se encontró una recomendación para esa combinación.\n\nTe recomendamos consultar con un nutricionista profesional o ajustar tu objetivo.")
 
     def guardar_en_historial(self, objetivo, actividad, dieta, recomendacion):
-        entrada = {
-            "fecha": datetime.now().isoformat(),
-            "objetivo": objetivo,
-            "actividad": actividad,
-            "dieta": dieta,
-            "recomendacion": recomendacion
-        }
-
-        historial = []
-        if os.path.exists(self.historial_path):
-            with open(self.historial_path, 'r', encoding='utf-8') as f:
-                historial = json.load(f)
-
-        historial.append(entrada)
-
-        with open(self.historial_path, 'w', encoding='utf-8') as f:
-            json.dump(historial, f, indent=4, ensure_ascii=False)
+        historial.guardar_en_historial(objetivo, actividad, dieta, recomendacion)
 
     def mostrar_historial(self):
-        if not os.path.exists(self.historial_path):
+        historial_data = historial.cargar_historial()
+
+        if not historial_data:
             messagebox.showinfo("Historial", "No hay historial aún.")
             return
 
-        with open(self.historial_path, 'r', encoding='utf-8') as f:
-            historial = json.load(f)
-
         historial_text = "\n\n".join([
             f"[{datetime.fromisoformat(item['fecha']).strftime('%d-%m-%Y %H:%M')}]\nObjetivo: {item['objetivo']}\nActividad: {item['actividad']}\nDieta: {item['dieta']}\nRecomendación: {item['recomendacion']}"
-            for item in historial[-10:]
+            for item in historial_data[-10:]
         ])
 
         top = tk.Toplevel(self.root)
@@ -185,38 +173,47 @@ class NutriBotGUI:
         text_area.config(state=tk.DISABLED)
 
     def mostrar_estadisticas(self):
-        if not os.path.exists(self.historial_path):
+        historial_data = historial.cargar_historial()
+        if not historial_data:
             messagebox.showinfo("Estadísticas", "No hay datos suficientes.")
             return
 
-        with open(self.historial_path, 'r', encoding='utf-8') as f:
-            historial = json.load(f)
+        # Filtra entradas inválidas antes de calcular estadísticas
+        historial_filtrado = [
+            item for item in historial_data
+            if item["objetivo"] != "[Seleccionar]"
+            and item["actividad"] != "[Seleccionar]"
+            and item["dieta"] != "[Seleccionar]"
+        ]
 
-        conteo_dietas = {}
-        conteo_objetivos = {}
-        conteo_actividad = {}
+        conteo_dietas, conteo_objetivos, conteo_actividad = estadisticas.calcular_estadisticas(historial_filtrado)
 
-        for entrada in historial:
-            conteo_dietas[entrada["dieta"]] = conteo_dietas.get(entrada["dieta"], 0) + 1
-            conteo_objetivos[entrada["objetivo"]] = conteo_objetivos.get(entrada["objetivo"], 0) + 1
-            conteo_actividad[entrada["actividad"]] = conteo_actividad.get(entrada["actividad"], 0) + 1
 
-        _, ax = plt.subplots(1, 3, figsize=(20, 4))
+        # Si ya hay una gráfica, elimínala
+        if self.estadisticas_canvas:
+            self.estadisticas_canvas.get_tk_widget().destroy()
+            self.estadisticas_canvas = None
 
-        ax[0].bar(conteo_dietas.keys(), conteo_dietas.values(), color='skyblue')
-        ax[0].set_title("Tipos de dieta más consultados")
-        ax[0].tick_params(axis='x', rotation=30)
+        fig = Figure(figsize=(12, 4))
+        axs = fig.subplots(1, 3)
 
-        ax[1].bar(conteo_objetivos.keys(), conteo_objetivos.values(), color='salmon')
-        ax[1].set_title("Objetivos más comunes")
-        ax[1].tick_params(axis='x', rotation=30)
+        axs[0].bar(conteo_dietas.keys(), conteo_dietas.values(), color='skyblue')
+        axs[0].set_title("Tipos de dieta más consultados")
+        axs[0].tick_params(axis='x', rotation=30)
 
-        ax[2].bar(conteo_actividad.keys(), conteo_actividad.values(), color='lightgreen')
-        ax[2].set_title("Nivel de actividad")
-        ax[2].tick_params(axis='x', rotation=30)
+        axs[1].bar(conteo_objetivos.keys(), conteo_objetivos.values(), color='salmon')
+        axs[1].set_title("Objetivos más comunes")
+        axs[1].tick_params(axis='x', rotation=30)
 
-        plt.tight_layout()
-        plt.show()
+        axs[2].bar(conteo_actividad.keys(), conteo_actividad.values(), color='lightgreen')
+        axs[2].set_title("Nivel de actividad")
+        axs[2].tick_params(axis='x', rotation=30)
+
+        fig.tight_layout()
+
+        self.estadisticas_canvas = FigureCanvasTkAgg(fig, master=self.tab_estadisticas)
+        self.estadisticas_canvas.draw()
+        self.estadisticas_canvas.get_tk_widget().pack(padx=10, pady=10, fill="both", expand=True)
 
     def limpiar_campos(self):
         self.objetivo_combo.current(0)
