@@ -144,7 +144,6 @@ recomendacion(mantener_peso, moderado, ayuno_variable,
 recomendacion(mantener_peso, activo, ayuno_variable,
     'Ayuno flexible con comidas densas en nutrientes, proteinas completas y carbohidratos integrales. Ajustar segun requerimiento energetico diario.').
 
-
 % Regla general para dar la recomendación
 nutricion(Objetivo, Actividad, Dieta, Recomendacion) :-
     recomendacion(Objetivo, Actividad, Dieta, Recomendacion).
